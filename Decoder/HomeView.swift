@@ -129,10 +129,19 @@ struct HomeView: View {
     }
 
     func share() {
+        guard let rootViewController = UIApplication.shared.windows.first?.rootViewController else {
+            return
+        }
         let shareController = UIActivityViewController(activityItems: [text], applicationActivities: nil)
-        UIApplication.shared.windows.first?.rootViewController?.present(shareController,
-                                                                        animated: true,
-                                                                        completion: nil)
+
+        let popover = shareController.popoverPresentationController
+        popover?.permittedArrowDirections = .any
+        popover?.sourceRect = CGRect.zero
+        popover?.sourceView = rootViewController.view
+
+        rootViewController.present(shareController,
+                                   animated: true,
+                                   completion: nil)
     }
 
     func clear() {
