@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    @FocusState private var isTextEditorFocused: Bool
     @State private var text: String = ""
     @State private var cipher: UInt8 = 13
     @State private var isPresentingCopied = false
@@ -32,7 +33,21 @@ struct HomeView: View {
             Divider()
 
             TextEditor(text: $text)
+                .focused($isTextEditorFocused)
                 .padding()
+                .toolbar {
+                    ToolbarItem(placement: .keyboard) {
+                        HStack {
+                            Spacer()
+
+                            Button(action: {
+                                isTextEditorFocused.toggle()
+                            }) {
+                                Image(systemName: "chevron.down")
+                            }
+                        }
+                    }
+                }
 
             Divider()
 
