@@ -25,20 +25,27 @@ struct HomeView: View {
 
     var body: some View {
         VStack {
+            Text("Enter text below to encrypt or decrypt")
+                .font(.title)
+                .padding(.top, 30)
+
+            Divider()
+
             TextEditor(text: $text)
                 .padding()
 
             Divider()
 
             HStack {
-                Picker(selection: $cipher,
-                       label: Text("\(cipher)")
-                ) {
-                    ForEach(ciphers, id: \.self) {
-                        Text("\($0)")
+                Menu(content: {
+                    ForEach(ciphers, id: \.self) { c in
+                        Button("\(c)", action: { cipher = c })
                     }
+                }) {
+                    Text("\(cipher)")
+                        .font(.title)
                 }
-                .padding(.horizontal, 25)
+                .padding(.horizontal)
 
                 VStack {
                     ScrollView(.horizontal) {
@@ -48,7 +55,6 @@ struct HomeView: View {
                                     Text("\(String(letter))")
                                     Text("\(String(letter.encrypt(cipher)))")
                                 }
-                                .frame(width: 15)
                             }
                         }
                         .padding(.trailing)
