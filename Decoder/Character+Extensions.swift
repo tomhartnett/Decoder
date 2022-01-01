@@ -40,7 +40,7 @@ extension Character {
             newAsciiValue = asciiValue + cipher
         }
 
-        return Character.init(.init(newAsciiValue))
+        return Character(Unicode.Scalar(newAsciiValue))
     }
 
     func decrypt(_ cipher: UInt8) -> Character {
@@ -50,11 +50,11 @@ extension Character {
 
         let newAsciiValue: UInt8
         if asciiValue - cipher < self.lowerBound {
-            newAsciiValue = self.upperBound - (cipher - (asciiValue - self.lowerBound)) + 1
+            newAsciiValue = (self.upperBound + 1) - (cipher - (asciiValue - self.lowerBound))
         } else {
             newAsciiValue = asciiValue - cipher
         }
 
-        return Character.init(.init(newAsciiValue))
+        return Character(Unicode.Scalar(newAsciiValue))
     }
 }
